@@ -1,0 +1,5 @@
+name              "vagrant-node"
+maintainer        "Rémi GATTAZ"
+maintainer_email  "remi.gattaz@gmail.com"
+description       "Entry point for installing and configuring a node setup"
+version           "0.1.0"
