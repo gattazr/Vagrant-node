@@ -5,6 +5,7 @@
 #######################
 ip_address = '33.33.33.10'
 project_name = 'myAwesomeProject'
+src_path = '/public/'
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -26,6 +27,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.provider :virtualbox do |vb|
 		vb.name = "Vagrant-"+ project_name
 	end
+
+	# Manage the adress and hostname of the VM
+	config.hostmanager.enabled = true
+	config.hostmanager.manage_host = true
+	config.vm.define project_name do |node|
+		node.vm.hostname = project_name + ".dev"
+		node.vm.network :private_network, ip: ip_address
+		node.hostmanager.aliases = [ "www." + project_name + ".dev" ]
+	end
+	config.vm.provision :hostmanager
+
+	# set the shared folder
+	config.vm.synced_folder "./public/" , src_path, :mount_options => ["dmode=777", "fmode=666"]
 
 	config.vm.provision :chef_solo do |chef|
 		chef.add_recipe "app::node"
