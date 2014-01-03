@@ -6,6 +6,7 @@ This repo is perfect to start a node project.
 Contains
 ----------
 * node
+* Mysql
 
 Version
 ----
