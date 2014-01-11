@@ -6,7 +6,10 @@
 ip_address = '33.33.33.10'
 project_name = 'myAwesomeProject'
 src_path = '/public/'
-database_password = 'root'
+mysql_root_password = 'root'
+database_name = 'database_name'
+database_user = 'database_user'
+database_password = 'database_password'
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -35,6 +38,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	# set the shared folder
 	config.vm.synced_folder "./public/" , src_path, :mount_options => ["dmode=777", "fmode=666"]
 
+	# update the apt repository
+	config.vm.provision :shell, :inline => "apt-get update -qq"
+
 	# Manage the adress and hostname of the VM
 	config.vm.network :private_network, ip: ip_address
 	config.hostmanager.enabled = true
@@ -52,10 +58,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		chef.add_recipe "app::database"
 
 		chef.json = {
+			:app => {
+				:database_name => database_name,
+				:database_user => database_user,
+				:database_password => database_password,
+			},
 			:mysql => {
-				:server_root_password   => database_password,
-				:server_repl_password   => database_password,
-				:server_debian_password => database_password,
+				:server_root_password   => mysql_root_password,
+				:server_repl_password   => mysql_root_password,
+				:server_debian_password => mysql_root_password,
 				:bind_address           => ip_address,
 				:allow_remote_root      => true
 			}
