@@ -57,8 +57,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 				:database_name => Database::Database_name,
 				:database_user => Database::Database_user,
 				:database_password => Database::Database_password,
+				:database_dump => "/vagrant/config/"+Database::Database_dump
 			},
 			:mysql => {
+				:host => 'localhost',
 				:server_root_password   => Database::Root_password,
 				:server_repl_password   => Database::Root_password,
 				:server_debian_password => Database::Root_password,
