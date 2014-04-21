@@ -1,3 +1,3 @@
 site :opscode
 
-cookbook 'app', path: './site-cookbooks/app'
+cookbook 'vagrant-node', path: './site-cookbooks/vagrant-node'

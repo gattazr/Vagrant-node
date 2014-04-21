@@ -49,8 +49,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# Enable and configure chef solo
 	config.vm.provision :chef_solo do |chef|
-		chef.add_recipe "app::node"
-		chef.add_recipe "app::database"
+		chef.custom_config_path = "Vagrantfile.chef"
+		# add the recipes
+		chef.add_recipe "vagrant-node::node"
+		chef.add_recipe "vagrant-node::database"
 
 		chef.json = {
 			:app => {
